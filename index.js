@@ -1,12 +1,20 @@
-import { Telegraf } from 'telegraf';
+import {Scenes, Telegraf} from 'telegraf';
 
-const bot = new Telegraf("1637503600:AAE29ldALGVRAsUjGN3sTnbmS3A624ABMtM");
-bot.start((ctx) => ctx.reply('Welcome'));
+
+
+const bot = new Telegraf(process.env.BOT_TOKEN);
+
+bot.start((ctx) => {
+    ctx.reply('خوش آمدید!');
+    ctx.reply("لطفا نام خود را وارد کنید:");
+});
+
 bot.help((ctx) => ctx.reply('Send me a sticker'));
 bot.on('sticker', (ctx) => ctx.reply('👍'));
 bot.hears("hi", (ctx) => ctx.reply("Hello friends!"));
 bot.on("message", (ctx) => ctx.reply(':/'));
-	
+
+
 bot.launch();
 
 // Enable graceful stop

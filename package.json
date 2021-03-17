@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "telegraf": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.35"
   }
 }
