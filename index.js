@@ -1,27 +1,30 @@
-import {Scenes, Telegraf, session} from 'telegraf';
+import { Scenes, Telegraf, Markup, session } from 'telegraf';
 
+// /greeter
 const greeterScene = new Scenes.BaseScene('SCENARIO_TYPE_SCENE_ID');
-
 greeterScene.enter((ctx) => {
     ctx.session.myData = {};
-    ctx.reply('How are you?');
+    ctx.reply('چطوری جون دل؟', Markup.inlineKeyboard([
+        Markup.button.callback('حالم خوبه', 'حالم خوبه'),
+        Markup.button.callback('خوب نیستم', 'خوب نیستم')
+    ]).resize()
+    );
+});
+greeterScene.hears("خداحافظ", (ctx) => {
+    ctx.reply('خداخافظ 😢');
+    greeterScene.leave();
 });
 
-greeterScene.leave((ctx) => {
-    ctx.reply('Thank you for your time!');
-});
+greeterScene.use((ctx) => ctx.replyWithMarkdown('سر کیفی بدم سر کیفی الکی ادا حال بدا رو در نیار'));
 
-// What to do if user entered a raw message or picked some other option?
-greeterScene.use((ctx) => ctx.replyWithMarkdown('Please *choose* either Fine! or Bad!'));
-
+//create bot
 const bot = new Telegraf(process.env.BOT_TOKEN);
-
 const stage = new Scenes.Stage([greeterScene]);
-bot.use(session())
-bot.use(stage.middleware())
+
+bot.use(session());
+bot.use(stage.middleware());
 
 bot.command('greeter', (ctx) => {
-    console.log(ctx)
     ctx.scene.enter('SCENARIO_TYPE_SCENE_ID');
 });
 
@@ -31,12 +34,14 @@ bot.start((ctx) => {
 });
 
 bot.help((ctx) => ctx.reply('Send me a sticker'));
-bot.on('sticker', (ctx) => ctx.reply('👍'));
-bot.hears("hi", (ctx) => ctx.reply("Hello friends!"));
-bot.on("message", (ctx) => ctx.reply(':/'));
 
+bot.on('sticker', (ctx) => ctx.reply('👍'));
+
+bot.hears("hi", (ctx) => ctx.reply("Hello friends!"));
 
 bot.launch();
+
+
 
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'));
