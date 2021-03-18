@@ -11,13 +11,10 @@ greeterScene.enter((ctx) => {
     );
 });
 
-
 greeterScene.hears("خداحافظ", (ctx) => {
     ctx.reply('خداخافظ 😢');
     greeterScene.leave();
 });
-
-greeterScene.use((ctx) => ctx.replyWithMarkdown('سر کیفی بدم سر کیفی الکی ادا حال بدا رو در نیار'));
 
 //create bot
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -39,19 +36,21 @@ bot.help((ctx) => ctx.reply('Send me a sticker'));
 
 bot.on('sticker',(ctx) => ctx.reply('👍'));
 
-bot.action('greeter.bad', async (ctx) => {
+bot.action('greeter.bad', (ctx) => {
     console.log("greeter.bad");
-    await ctx.answerCbQuery();
-    return ctx.reply('چه بد');
+    ctx.answerCbQuery();
+    ctx.reply('😞 چه بد');
 });
 
-bot.action('greeter.fine',(ctx) => ctx.reply("چه خوب"));
+bot.action('greeter.fine', (ctx) => {
+    console.log("greeter.good");
+    ctx.answerCbQuery();
+    ctx.reply('😃 چه خوب');
+});
 
 bot.hears("hi", (ctx) => ctx.reply("Hello friends!"));
 
 bot.launch();
-
-
 
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'));
