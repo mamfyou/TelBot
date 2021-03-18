@@ -5,11 +5,13 @@ const greeterScene = new Scenes.BaseScene('SCENARIO_TYPE_SCENE_ID');
 greeterScene.enter((ctx) => {
     ctx.session.myData = {};
     ctx.reply('چطوری جون دل؟', Markup.inlineKeyboard([
-        Markup.button.callback('حالم خوبه', 'حالم خوبه'),
-        Markup.button.callback('خوب نیستم', 'خوب نیستم')
+        Markup.button.callback('حالم خوبه', 'greeter.fine'),
+        Markup.button.callback('خوب نیستم', 'greeter.bad')
     ]).resize()
     );
 });
+
+
 greeterScene.hears("خداحافظ", (ctx) => {
     ctx.reply('خداخافظ 😢');
     greeterScene.leave();
@@ -35,7 +37,15 @@ bot.start((ctx) => {
 
 bot.help((ctx) => ctx.reply('Send me a sticker'));
 
-bot.on('sticker', (ctx) => ctx.reply('👍'));
+bot.on('sticker',(ctx) => ctx.reply('👍'));
+
+bot.action('greeter.bad', async (ctx) => {
+    console.log("greeter.bad");
+    await ctx.answerCbQuery();
+    return ctx.reply('چه بد');
+});
+
+bot.action('greeter.fine',(ctx) => ctx.reply("چه خوب"));
 
 bot.hears("hi", (ctx) => ctx.reply("Hello friends!"));
 
