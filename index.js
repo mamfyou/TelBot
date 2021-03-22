@@ -1,56 +1,42 @@
 import { Scenes, Telegraf, Markup, session } from 'telegraf';
 
-// /greeter
-const greeterScene = new Scenes.BaseScene('SCENARIO_TYPE_SCENE_ID');
-greeterScene.enter((ctx) => {
-    ctx.session.myData = {};
-    ctx.reply('چطوری جون دل؟', Markup.inlineKeyboard([
-        Markup.button.callback('حالم خوبه', 'greeter.fine'),
-        Markup.button.callback('خوب نیستم', 'greeter.bad')
-    ]).resize()
-    );
-});
+/*  Keywords
 
-greeterScene.hears("خداحافظ", (ctx) => {
-    ctx.reply('خداخافظ 😢');
-    greeterScene.leave();
-});
-
-//create bot
+const SCENE_NAME = new Scenes.BaseScene("SCENARIO_TYPE_SCENE_ID");
 const bot = new Telegraf(process.env.BOT_TOKEN);
-const stage = new Scenes.Stage([greeterScene]);
+const stage = new Scenes.stage([SCENE_NAME], ...);
 
 bot.use(session());
 bot.use(stage.middleware());
 
-bot.command('greeter', (ctx) => {
-    ctx.scene.enter('SCENARIO_TYPE_SCENE_ID');
-});
+bot.command("DESIRED_COMMAND...", (ctx) => ctx.scene.enter("SCENARIO_TYPE_SCENE_ID"));
+SCENE_NAME.enter((ctx) => {DESIRED_ACTION...});
+SCENE_NAME.hears(...);
+....
 
-bot.start((ctx) => {
-    ctx.reply('خوش آمدید!');
-    ctx.reply("لطفا نام خود را وارد کنید:");
-});
-
-bot.help((ctx) => ctx.reply('Send me a sticker'));
-
-bot.on('sticker',(ctx) => ctx.reply('👍'));
-
-bot.action('greeter.bad', (ctx) => {
-    console.log("greeter.bad");
-    ctx.answerCbQuery();
-    ctx.reply('😞 چه بد');
-});
-
-bot.action('greeter.fine', (ctx) => {
-    console.log("greeter.good");
-    ctx.answerCbQuery();
-    ctx.reply('😃 چه خوب');
-});
-
-bot.hears("hi", (ctx) => ctx.reply("Hello friends!"));
-
+bot.start((ctx) => {DESIRED_ACTION...});
+bot.help((ctx) => {DESIRED_ACTION...});
+bot.on("sticker", (ctx) => {DESIRED_ACTION...});
+bot.hears("DESIRED_TEXT...", (ctx) => {DESIRED_ACTION...});
 bot.launch();
+....
+
+ctx.reply("DESIRED_MESSAGE...", Markup.inlineKeyboard
+    ([
+        Markup.button.callback("DESIRED_TEXT1", "UNIQUE_KEY1"),
+        Markup.button.callback("DESIRED_TEXT2", "UNIQUE_KEY2")
+    ])
+    .resize()
+);
+bot.action("UNIQUE_KEY1", (ctx) => {DESIRED_ACTION...};
+....
+
+*/
+
+
+
+
+
 
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'));
