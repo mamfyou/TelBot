@@ -37,15 +37,15 @@ bot.action("UNIQUE_KEY1", (ctx) => {DESIRED_ACTION...};
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-const bookReedScene = new Scenes.BaseScene("BOOK_READ_SCENE");
+const bookReadScene = new Scenes.BaseScene("BOOK_READ_SCENE");
 
-const stage = new Scenes.Stage([bookReedScene]);
+const stage = new Scenes.Stage([bookReadScene]);
 
 bot.use(session());
 bot.use(stage.middleware());
 
 bot.start((ctx) => {
-    console.log("started!"),
+    console.log("started!")
     ctx.reply("📚به بات کاف خوش آمدید", Markup.inlineKeyboard([
         Markup.button.callback("کتاب چی بخونم؟", "BOOK_READ_KEY"),
         Markup.button.callback("کتاب چی قرض بگیرم؟", "BOOK_BORROW_KEY"),
@@ -55,7 +55,16 @@ bot.start((ctx) => {
 
 bot.action("BOOK_READ_KEY", (ctx) => ctx.scene.enter("BOOK_READ_SCENE"));
 
-bot.launch();
+bookReadScene.action((ctx) => {
+    ctx.reply ("داوش ژانر مورد علاقه ات رو بگو به مولا", Markup.keyboard([
+        ["تاریخ و جغرافیا"], ["رمان"], ["فلسفه و منطق"],
+        ["دین"], ["علوم طبیعی و ریاضیات"], ["هنرها"], ["علوم اجتماعی"]
+        ]).oneTime().resize());
+});
+
+bot.launch().then();
+
+
 
 
 // Enable graceful stop
