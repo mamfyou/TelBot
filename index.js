@@ -1,4 +1,4 @@
-import { Scenes, Telegraf, Markup, session } from 'telegraf';
+import {Scenes, Telegraf, Markup, session} from 'telegraf';
 
 /*  Keywords
 
@@ -55,16 +55,14 @@ bot.start((ctx) => {
 
 bot.action("BOOK_READ_KEY", (ctx) => ctx.scene.enter("BOOK_READ_SCENE"));
 
-bookReadScene.action((ctx) => {
-    ctx.reply ("داوش ژانر مورد علاقه ات رو بگو به مولا", Markup.keyboard([
-        ["تاریخ و جغرافیا"], ["رمان"], ["فلسفه و منطق"],
+bookReadScene.enter(
+    (ctx) => {ctx.reply("داوش ژانر مورد علاقه ات رو بگو به مولا",
+        Markup.keyboard([["تاریخ و جغرافیا"], ["رمان"], ["فلسفه و منطق"],
         ["دین"], ["علوم طبیعی و ریاضیات"], ["هنرها"], ["علوم اجتماعی"]
-        ]).oneTime().resize());
+    ]).oneTime().resize());
 });
 
 bot.launch().then();
-
-
 
 
 // Enable graceful stop
